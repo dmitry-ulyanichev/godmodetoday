@@ -1,0 +1,39 @@
+{% load i18n static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'website/base.css' %}">
+  <script src="{% static 'website/script.js' %}"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="site-name">
+        <a href="{% url 'homepage' %}">GodMode</a>
+      </div>
+      <div class="language-switcher">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        <form id="language-form" action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{% url 'homepage' %}">
+            <select id="language-select" name="language">
+                {% for lang_code, lang_name in LANGUAGES %}
+                    <option value="{{ lang_code }}" {% if LANGUAGE_CODE == lang_code %} selected{% endif %}>
+                        {{ lang_code|upper }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+      </div>    
+    </div>
+  </header>
+  <div id="content" class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>

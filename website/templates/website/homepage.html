@@ -1,0 +1,9 @@
+{% extends 'website/template.html' %}
+{% load i18n static %}
+
+
+{% block title %}Godmode{% endblock %}
+{% block content %}
+    <h1>{% translate "Welcome!" %}</h1>
+    <p><a href="{% url 'palabradeldia:index' %}">Palabra del Dia</a></p>     
+{% endblock %}

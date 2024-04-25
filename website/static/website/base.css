@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header .site-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .site-name a {
+    text-decoration: none;
+  }
+  
+  .site-name a:visited {
+    color: #fff;
+  }
+  
+  header .language-switcher {
+    margin-right: 20px;
+  }
+  
+  header .language-switcher select {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    padding: 5px;
+  }
+  
+  header .language-switcher input[type="submit"] {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  
+  header .language-switcher input[type="submit"]:hover {
+    background-color: #555;
+  }
+  
+  #content {
+    padding: 0 10px;
+  }
