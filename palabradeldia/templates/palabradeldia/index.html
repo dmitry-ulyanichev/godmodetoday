@@ -1,8 +1,27 @@
 {% extends 'website/template.html' %}
 {% load i18n static %}
+{% load static %}
 
-{% block title %}{% trans "Welcome to Palabra del Día Solver" %}{% endblock %}
-
+{% block title %}{% translate "Palabra del Dia Solver" %}{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'palabradeldia/styles.css' %}">
+    <script>
+        let words = JSON.parse('{{ words|safe }}');
+    </script>
+    <script src="{% static 'palabradeldia/script.js' %}"></script>
+{% endblock %}
 {% block content %}
-  <h1>{% translate "Welcome, guys!" %}</h1>
+    <h1>{% translate "Helping you solve \"Palabra del Dia\"" %}</h1>
+    <div id="game">
+        <div id="rows">
+            {% for i in "123456" %}
+            <div class="row" id="row{{ i }}">
+                {% for j in "12345" %}
+                <input type="text" class="cell" id="cell{{ i }}{{ j }}" maxlength="1">
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <button id="suggestButton" onclick="suggestWord()">{% translate "Suggest a Word" %}</button>
+    </div>
 {% endblock %}

@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+import json
 
 def index(request):
-    return render(request, 'palabradeldia/index.html')
+    with open('palabradeldia/static/palabradeldia/5_letter_spanish_words.json') as f:
+        words = json.load(f)
+    return render(request, 'palabradeldia/index.html', {'words': json.dumps(words)})
