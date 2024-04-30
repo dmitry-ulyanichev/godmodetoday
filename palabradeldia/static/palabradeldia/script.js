@@ -1,3 +1,7 @@
+let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C', 'M', 'P', 'B', 'H', 'Q', 'Y', 'V', 'G', 'F', 'J', 'Z', 'Ñ', 'X', 'K', 'W'];
+let tries = 0;
+const wordToGuess = "elfas";
+
 function suggestWord() {
     const rows = document.querySelectorAll('.row');
     const nextIncompleteRow = getNextIncompleteRow(rows);
@@ -5,9 +9,20 @@ function suggestWord() {
     if (nextIncompleteRow) {
       const grayLetters = handleGray(rows);
       const orangeLettersAndPositions = handleGreenOrange('orange', rows);
-      console.log("Orange letters: " + JSON.stringify(orangeLettersAndPositions));
       const greenLettersAndPositions = handleGreenOrange('green', rows);
-    //   console.log("Green letters: " + JSON.stringify(greenLettersAndPositions));
+
+      // Remove gray letters from the letterFrequency array
+      letterFrequency = letterFrequency.filter(letter => !grayLetters.includes(letter));
+
+      // Remove orange letters from the letterFrequency array
+      for (const letter in orangeLettersAndPositions) {
+        letterFrequency = letterFrequency.filter(freqLetter => freqLetter !== letter);
+      }
+
+      // Remove green letters from the letterFrequency array
+      for (const letter in greenLettersAndPositions) {
+        letterFrequency = letterFrequency.filter(freqLetter => freqLetter !== letter);
+      }
   
       const validWords = words.filter(word => {
         const normalizedWord = word.split('').map(letter => removeDiacritics(letter.toLowerCase())).join('').toUpperCase(); // Create a normalized version of the word and capitalize it
@@ -58,14 +73,22 @@ function suggestWord() {
       if (validWords.length === 0) {
         console.log("No words left that satisfy the conditions");
       } else {
-        const randomWord = getRandomWord(validWords);
+        let prioritizedWords = validWords;
+        if (tries <= 2) {
+            prioritizedWords = prioritizeWordsByLetterFrequency(validWords, letterFrequency);
+        }
+        const randomWord = getRandomWord(prioritizedWords);
         fillRowWithWord(nextIncompleteRow, randomWord);
         focusFirstCellOfTopIncompleteRow();
+        // console.log("Valid words: " + JSON.stringify(validWords));
+        if (validWords.includes(wordToGuess)) {
+          console.log(wordToGuess + " is present.")
+        }
 
         // Update the words variable with the validWords variable
         words = validWords;
-
       }
+      tries++;
     }
 }     
 
@@ -177,14 +200,14 @@ function cycleCellColor(event) {
       let newColor;
   
       // Cycle through the colors based on the current color
-      if (currentColor === '' || currentColor === 'white') {
+      if (currentColor === '') {
         newColor = 'gray';
       } else if (currentColor === 'gray') {
         newColor = 'orange';
       } else if (currentColor === 'orange') {
         newColor = 'green';
       } else if (currentColor === 'green') {
-        newColor = 'white';
+        newColor = '';
       } else {
         newColor = 'gray';
       }
@@ -224,4 +247,29 @@ function removeDiacritics(letter) {
         default:
             return letter;
     }
+}
+
+function prioritizeWordsByLetterFrequency(words, letterFrequency) {
+    let filteredWords = [...words];
+
+    for (let letter of letterFrequency) {
+        let wordsWithLetter = filteredWords.filter(word => {
+            let lowerWord = word.toLowerCase();
+            for (let char of lowerWord) {
+                let noDiacriticChar = removeDiacritics(char);
+                if (noDiacriticChar === letter.toLowerCase()) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if (wordsWithLetter.length === 1) {
+            return wordsWithLetter;
+        } else if (wordsWithLetter.length > 0) {
+            filteredWords = wordsWithLetter;
+        }
+    }
+
+    return filteredWords;
 }

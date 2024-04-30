@@ -21,3 +21,5 @@
         - **Green** means that the letter must be present in the suggested word in this exact position.
     - Since the words are stored in the list in their original form, i.e. most are **lowercase** but some (personal names) start with a capital letter and some (acronyms) are all capitalized while the app displays the words in **uppercase**, it should handle this part of the logic without errors.
     - Since some of the words contain **diacritic symbols** but the original application ignores them, the app should handle this part of the logic without errors.
+    - The efficiency of word-guessing should be increased by giving priority to words that include more frequently occurring letters.
+    - Besides one suggested word, the user should be given an option of seeing other words that satisfy the conditions.
