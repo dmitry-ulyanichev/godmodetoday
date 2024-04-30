@@ -1,5 +1,6 @@
 let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C', 'M', 'P', 'B', 'H', 'Q', 'Y', 'V', 'G', 'F', 'J', 'Z', 'Ñ', 'X', 'K', 'W'];
 let tries = 0;
+let newRowUnhidden = false;
 const wordToGuess = "elfas";
 
 function suggestWord() {
@@ -105,6 +106,10 @@ function isRowFilled(row) {
 return Array.from(row.querySelectorAll('.cell')).every(cell => cell.value.length > 0);
 }
 
+function isRowColored(row) {
+  return Array.from(row.querySelectorAll('.cell')).every(cell => cell.style.backgroundColor !== '');
+}
+
 function getRandomWord(words) {
     return words[Math.floor(Math.random() * words.length)];
 }
@@ -174,56 +179,70 @@ function moveFocusToNextCell(event) {
     }
 }
 
+function unhideNextRow() {
+  const rows = document.querySelectorAll('.row');
+  for (const row of rows) {
+    if (row.classList.contains('hidden')) {
+      row.classList.remove('hidden');
+      break;
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.addEventListener('input', event => {
-            moveFocusToNextCell(event);
-      
-            const row = event.target.parentElement;
-            if (isRowFilled(row)) {
-              focusFirstCellOfTopIncompleteRow();
-            }
-        });
-      cell.addEventListener('click', cycleCellColor);
-      focusFirstCellOfTopIncompleteRow();
+  const cells = document.querySelectorAll('.cell');
+  cells.forEach(cell => {
+    cell.addEventListener('input', event => {
+      moveFocusToNextCell(event);
+
+      const row = event.target.parentElement;
+      if (isRowFilled(row)) {
+        focusFirstCellOfTopIncompleteRow();
+      }
     });
+    cell.addEventListener('click', cycleCellColor);
+  });
 });
   
 function cycleCellColor(event) {
-    const cell = event.target;
-    const row = cell.parentElement;
-  
-    // Check if the row is complete and the cell is not disabled
-    if (isRowFilled(row) && !cell.disabled) {
-      const currentColor = cell.style.backgroundColor;
-      let newColor;
-  
-      // Cycle through the colors based on the current color
-      if (currentColor === '') {
-        newColor = 'gray';
-      } else if (currentColor === 'gray') {
-        newColor = 'orange';
-      } else if (currentColor === 'orange') {
-        newColor = 'green';
-      } else if (currentColor === 'green') {
-        newColor = '';
-      } else {
-        newColor = 'gray';
-      }
-  
-      cell.style.backgroundColor = newColor;
+  const cell = event.target;
+  const row = cell.parentElement;
+
+  // Check if the row is complete and the cell is not disabled
+  if (isRowFilled(row) && !cell.disabled) {
+    const currentColor = cell.style.backgroundColor;
+    let newColor;
+
+    // Cycle through the colors based on the current color
+    if (currentColor === '') {
+      newColor = 'gray';
+    } else if (currentColor === 'gray') {
+      newColor = 'orange';
+    } else if (currentColor === 'orange') {
+      newColor = 'green';
+    } else {
+      newColor = 'gray';
     }
+
+    cell.style.backgroundColor = newColor;
+
+    // Check if all cells in the row are colored and a new row has not been unhidden yet
+    if (isRowColored(row) && !newRowUnhidden) {
+      unhideNextRow();
+      newRowUnhidden = true;
+    }
+  }
 }
 
 function focusFirstCellOfTopIncompleteRow() {
-    const rows = document.querySelectorAll('.row');
-    const nextIncompleteRow = getNextIncompleteRow(rows);
-  
-    if (nextIncompleteRow) {
-      const firstCell = nextIncompleteRow.querySelector('.cell:not([disabled])');
-      firstCell.focus();
-    }
+  const rows = document.querySelectorAll('.row');
+  let currentRow = getNextIncompleteRow(rows);
+
+  if (currentRow) {
+    const firstCell = currentRow.querySelector('.cell:not([disabled])');
+    firstCell.focus();
+    newRowUnhidden = false; // Reset the flag when focusing on the first cell of the new row
+  }
 }
 
 function getRowValues(row) {
@@ -272,4 +291,14 @@ function prioritizeWordsByLetterFrequency(words, letterFrequency) {
     }
 
     return filteredWords;
+}
+
+function showNextRow() {
+  const rows = document.querySelectorAll('.row');
+  for (const row of rows) {
+    if (row.classList.contains('hidden')) {
+      row.classList.remove('hidden');
+      break;
+    }
+  }
 }

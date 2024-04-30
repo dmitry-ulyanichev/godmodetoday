@@ -15,7 +15,7 @@
     <div id="game">
         <div id="rows">
             {% for i in "123456" %}
-            <div class="row" id="row{{ i }}">
+            <div class="row{% if forloop.counter|add:'-1' > 0 %} hidden{% endif %}" id="row{{ i }}">
                 {% for j in "12345" %}
                 <input type="text" class="cell" id="cell{{ i }}{{ j }}" maxlength="1">
                 {% endfor %}
