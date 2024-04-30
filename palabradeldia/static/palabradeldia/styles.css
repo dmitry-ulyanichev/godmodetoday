@@ -20,6 +20,10 @@ body {
     margin-right: 5px;
 }
 
+.filled {
+    cursor: pointer;
+}
+
 #suggestButton {
     font-size: 20px;
     margin-top: 10px;

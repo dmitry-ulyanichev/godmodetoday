@@ -115,10 +115,11 @@ function getRandomWord(words) {
 }
 
 function fillRowWithWord(row, word) {
-    const cells = row.querySelectorAll('.cell');
-    for (let i = 0; i < cells.length; i++) {
-      cells[i].value = word[i].toUpperCase();
-    }
+  const cells = row.querySelectorAll('.cell');
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].value = word[i].toUpperCase();
+    cells[i].classList.add('filled');
+  }
 }
 
 function handleGray(rows) {
@@ -169,14 +170,22 @@ function handleGreenOrange(color, rows) {
 }
   
 function moveFocusToNextCell(event) {
-    const currentCell = event.target;
-    currentCell.value = currentCell.value.toUpperCase(); // Convert the input value to uppercase
-  
-    const nextCell = currentCell.parentElement.querySelector('.cell:not([disabled])' + ':nth-child(' + (Array.from(currentCell.parentElement.children).indexOf(currentCell) + 2) + ')');
-  
-    if (nextCell) {
-      nextCell.focus();
+  const currentCell = event.target;
+  currentCell.value = currentCell.value.toUpperCase(); // Convert the input value to uppercase
+
+  const nextCell = currentCell.parentElement.querySelector('.cell:not([disabled])' + ':nth-child(' + (Array.from(currentCell.parentElement.children).indexOf(currentCell) + 2) + ')');
+
+  if (nextCell) {
+    nextCell.focus();
+  } else {
+    const row = currentCell.parentElement;
+    if (isRowFilled(row)) {
+      console.log("We have filled the row.")
+      row.querySelectorAll('.cell').forEach((cell) => {
+        cell.classList.add('filled'); // Add the 'filled' class to the cell
+      });
     }
+  }
 }
 
 function unhideNextRow() {
