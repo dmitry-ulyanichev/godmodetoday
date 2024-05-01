@@ -193,6 +193,11 @@ function unhideNextRow() {
   for (const row of rows) {
     if (row.classList.contains('hidden')) {
       row.classList.remove('hidden');
+
+      // Set focus on the first cell of the revealed row
+      const firstCell = row.querySelector('.cell:not([disabled])');
+      firstCell.focus();
+
       break;
     }
   }
@@ -211,6 +216,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     cell.addEventListener('click', cycleCellColor);
   });
+
+  // Set focus on the first cell of the first row when the page is loaded
+  setTimeout(() => {
+    const firstCell = document.querySelector('.row:not(.hidden) .cell:not([disabled])');
+    if (firstCell) {
+      firstCell.focus();
+    }
+  }, 10);
+
 });
   
 function cycleCellColor(event) {
@@ -237,8 +251,21 @@ function cycleCellColor(event) {
 
     // Check if all cells in the row are colored and a new row has not been unhidden yet
     if (isRowColored(row) && !newRowUnhidden) {
+      row.dataset.processed = true;
       unhideNextRow();
       newRowUnhidden = true;
+    }
+
+    // If a new row has been unhidden and the clicked cell is in the previous row,
+    // refocus on the first cell of the new row after a short delay
+    if (newRowUnhidden && !row.classList.contains('hidden')) {
+      setTimeout(() => {
+        const newRow = document.querySelector('.row:not(.hidden):not([data-processed])');
+        if (newRow) {
+          const firstCell = newRow.querySelector('.cell:not([disabled])');
+          firstCell.focus();
+        }
+      }, 10);
     }
   }
 }
