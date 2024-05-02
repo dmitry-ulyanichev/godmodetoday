@@ -1,8 +1,6 @@
 let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C', 'M', 'P', 'B', 'H', 'Q', 'Y', 'V', 'G', 'F', 'J', 'Z', 'Ñ', 'X', 'K', 'W'];
 let tries = 0;
 let newRowUnhidden = false;
-const instructionsTextFill = 'Click on letters to change colors';
-const instructionsTextColor = gettext("Click on letters to change colors");
 
 function suggestWord() {
     const rows = document.querySelectorAll('.row');
@@ -73,7 +71,10 @@ function suggestWord() {
     });    
       
       if (validWords.length === 0) {
-        console.log("No words left that satisfy the conditions");
+        const messageText = document.getElementById('none-left').textContent;
+        const instructionsElement = document.getElementById("instructions");
+        instructionsElement.textContent = '';
+        animateText(instructionsElement, messageText);
       } else {
         let prioritizedWords = validWords;
         if (tries <= 2) {
@@ -117,6 +118,13 @@ function fillRowWithWord(row, word) {
     cells[i].value = word[i].toUpperCase();
     cells[i].classList.add('filled');
   }
+
+  // Update the instructions text
+  const messageText = document.getElementById('color').textContent;
+  const instructionsElement = document.getElementById("instructions");
+  instructionsElement.textContent = '';
+  animateText(instructionsElement, messageText);
+
 }
 
 function handleGray(rows) {
@@ -184,7 +192,7 @@ function moveFocusToNextCell(event) {
 
       // Update the instructions text
       const messageText = document.getElementById('color').textContent;
-      const instructionsElement = row.nextElementSibling;
+      const instructionsElement = document.getElementById("instructions");
       instructionsElement.textContent = '';
       animateText(instructionsElement, messageText);
     }
@@ -197,8 +205,8 @@ function unhideNextRow() {
     if (row.classList.contains('hidden')) {
       // Show instructions for the unhidden row
       const messageText = document.getElementById('type').textContent;
-      const instructionsElement = row.nextElementSibling;
-      instructionsElement.classList.remove('hidden');
+      const instructionsElement = document.getElementById("instructions");
+      instructionsElement.textContent = '';
       animateText(instructionsElement, messageText);
 
       row.classList.remove('hidden');
@@ -235,8 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Animate the instructions text
   const messageText = document.getElementById('type').textContent;
-  const instructionsElement = document.querySelector('.instructions');
-  instructionsElement.classList.remove('hidden');
+  const instructionsElement = document.getElementById("instructions");
   animateText(instructionsElement, messageText);
 
 });
