@@ -1,7 +1,8 @@
 let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C', 'M', 'P', 'B', 'H', 'Q', 'Y', 'V', 'G', 'F', 'J', 'Z', 'Ñ', 'X', 'K', 'W'];
 let tries = 0;
 let newRowUnhidden = false;
-const wordToGuess = "elfas";
+const instructionsTextFill = 'Click on letters to change colors';
+const instructionsTextColor = gettext("Click on letters to change colors");
 
 function suggestWord() {
     const rows = document.querySelectorAll('.row');
@@ -81,10 +82,6 @@ function suggestWord() {
         const randomWord = getRandomWord(prioritizedWords);
         fillRowWithWord(nextIncompleteRow, randomWord);
         focusFirstCellOfTopIncompleteRow();
-        // console.log("Valid words: " + JSON.stringify(validWords));
-        if (validWords.includes(wordToGuess)) {
-          console.log(wordToGuess + " is present.")
-        }
 
         // Update the words variable with the validWords variable
         words = validWords;
@@ -180,10 +177,16 @@ function moveFocusToNextCell(event) {
   } else {
     const row = currentCell.parentElement;
     if (isRowFilled(row)) {
-      console.log("We have filled the row.")
+      console.log("We have filled the row.");
       row.querySelectorAll('.cell').forEach((cell) => {
         cell.classList.add('filled'); // Add the 'filled' class to the cell
       });
+
+      // Update the instructions text
+      const messageText = document.getElementById('color').textContent;
+      const instructionsElement = row.nextElementSibling;
+      instructionsElement.textContent = '';
+      animateText(instructionsElement, messageText);
     }
   }
 }
@@ -192,7 +195,14 @@ function unhideNextRow() {
   const rows = document.querySelectorAll('.row');
   for (const row of rows) {
     if (row.classList.contains('hidden')) {
+      // Show instructions for the unhidden row
+      const messageText = document.getElementById('type').textContent;
+      const instructionsElement = row.nextElementSibling;
+      instructionsElement.classList.remove('hidden');
+      animateText(instructionsElement, messageText);
+
       row.classList.remove('hidden');
+      row.classList.add('visible');
 
       // Set focus on the first cell of the revealed row
       const firstCell = row.querySelector('.cell:not([disabled])');
@@ -218,12 +228,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Set focus on the first cell of the first row when the page is loaded
-  setTimeout(() => {
-    const firstCell = document.querySelector('.row:not(.hidden) .cell:not([disabled])');
+  const firstCell = document.querySelector('.row:not(.hidden) .cell:not([disabled])');
     if (firstCell) {
       firstCell.focus();
     }
-  }, 10);
+  
+  // Animate the instructions text
+  const messageText = document.getElementById('type').textContent;
+  const instructionsElement = document.querySelector('.instructions');
+  instructionsElement.classList.remove('hidden');
+  animateText(instructionsElement, messageText);
 
 });
   
@@ -252,6 +266,8 @@ function cycleCellColor(event) {
     // Check if all cells in the row are colored and a new row has not been unhidden yet
     if (isRowColored(row) && !newRowUnhidden) {
       row.dataset.processed = true;
+      // Remove instructions from the previous row
+      row.nextElementSibling.classList.add('hidden');
       unhideNextRow();
       newRowUnhidden = true;
     }
@@ -336,5 +352,13 @@ function showNextRow() {
       row.classList.remove('hidden');
       break;
     }
+  }
+}
+
+function animateText(element, text, index = 0, delay = 50) {
+  if (index < text.length) {
+    element.textContent += text.charAt(index);
+    index++;
+    setTimeout(() => animateText(element, text, index, delay), delay);
   }
 }

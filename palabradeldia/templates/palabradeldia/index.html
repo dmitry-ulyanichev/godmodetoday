@@ -11,18 +11,21 @@
     <script src="{% static 'palabradeldia/script.js' %}"></script>
 {% endblock %}
 {% block content %}
-    <h1>{% translate "Helping you solve \"Palabra del Dia\"" %}</h1>
+    <div id="messages" class="hidden-text">
+        <span id="type" class="hidden">{% translate "Type a word or click the button" %}</span>
+        <span id="color" class="hidden">{% translate "Click on letters to change colors" %}</span>
+    </div>
     <div id="game">
         <div id="rows">
             {% for i in "123456" %}
-            <div class="row{% if forloop.counter|add:'-1' > 0 %} hidden{% endif %}" id="row{{ i }}">
+            <div class="row{% if forloop.counter|add:'-1' > 0 %} hidden{% endif %}{% if forloop.counter|add:'-1' == 0 %} visible{% endif %}" id="row{{ i }}">
                 {% for j in "12345" %}
                 <input type="text" class="cell" id="cell{{ i }}{{ j }}" maxlength="1">
                 {% endfor %}
             </div>
+            <div class="instructions{% if forloop.counter|add:'-1' > 0 %} hidden{% endif %}"></div>
             {% endfor %}
         </div>
-        <div id="more">{% translate "" %}</div>
         <button id="suggestButton" onclick="suggestWord()">{% translate "Suggest a Word" %}</button>
     </div>
 {% endblock %}

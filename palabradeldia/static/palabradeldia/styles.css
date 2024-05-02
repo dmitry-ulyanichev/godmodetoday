@@ -2,10 +2,23 @@ body {
     text-align: center;
 }
 
+#game {
+    margin-top: 30px;
+}
+
+.hidden-text {
+    opacity: 0;
+}
+
 .row {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    opacity: 0;
+}
+
+.row.visible {
+    opacity: 1;
 }
 
 .hidden {
