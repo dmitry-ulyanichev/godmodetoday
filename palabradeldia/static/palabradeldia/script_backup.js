@@ -85,9 +85,6 @@ function suggestWord() {
       const randomWord = getRandomWord(prioritizedWords);
       fillRowWithWord(nextIncompleteRow, randomWord);
       updateSuggestButton(true);
-      if (nextIncompleteRow.getAttribute('id') === 'row6') {
-        updateButton();
-      }
       focusFirstCellOfTopIncompleteRow();
 
       // Update the words variable with the validWords variable
@@ -432,8 +429,7 @@ function updateSuggestButton(isEnabled) {
 
 function updateButton() {
   const suggestButton = document.getElementById("suggestButton");
-  suggestButton.textContent = document.getElementById('try-again').textContent;
-  suggestButton.classList.remove("disabled-button");
+  suggestButton.textContent = "Try Again";
   suggestButton.onclick = reloadPage;
 }
 

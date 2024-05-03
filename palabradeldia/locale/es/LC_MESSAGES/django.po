@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-03 10:43+0200\n"
-"PO-Revision-Date: 2024-05-03 09:47+0200\n"
+"POT-Creation-Date: 2024-05-03 19:54+0200\n"
+"PO-Revision-Date: 2024-05-03 19:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #: templates/palabradeldia/index.html:5
-#, fuzzy
-#| msgid "Let's solve the Word of the Day!"
 msgid "Let's solve la Palabra del Día!"
 msgstr "¡Resolvamos la Palabra del Día!"
 
@@ -40,6 +38,14 @@ msgstr "Haz clic en las letras para cambiar colores"
 #: templates/palabradeldia/index.html:30
 msgid "No words satisfy the conditions"
 msgstr "No hay palabras que cumplan los criterios"
+
+#: templates/palabradeldia/index.html:31
+msgid "That was the last attempt"
+msgstr "Ese fue el último intento"
+
+#: templates/palabradeldia/index.html:32
+msgid "Try Again?"
+msgstr "¿Intentar de Nuevo?"
 
 #~ msgid "Palabra del Dia Solver"
 #~ msgstr "¡Resolvamos la Palabra del Día!"

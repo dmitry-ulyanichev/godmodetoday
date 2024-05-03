@@ -8,21 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-03 10:43+0200\n"
-"PO-Revision-Date: 2024-05-03 09:52+0200\n"
+"POT-Creation-Date: 2024-05-03 19:54+0200\n"
+"PO-Revision-Date: 2024-05-03 19:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.2\n"
 
 #: templates/palabradeldia/index.html:5
-#, fuzzy
-#| msgid "Let's solve the Word of the Day!"
 msgid "Let's solve la Palabra del Día!"
 msgstr "Давайте решим Слово Дня!"
 
@@ -41,3 +39,11 @@ msgstr "Измени цвета, нажимая на буквы"
 #: templates/palabradeldia/index.html:30
 msgid "No words satisfy the conditions"
 msgstr "Нет слов, удовлетворяющих условиям"
+
+#: templates/palabradeldia/index.html:31
+msgid "That was the last attempt"
+msgstr "Это была последняя попытка"
+
+#: templates/palabradeldia/index.html:32
+msgid "Try Again?"
+msgstr "Еще раз?"
