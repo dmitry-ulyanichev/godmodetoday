@@ -1,6 +1,7 @@
 let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C', 'M', 'P', 'B', 'H', 'Q', 'Y', 'V', 'G', 'F', 'J', 'Z', 'Ñ', 'X', 'K', 'W'];
 let tries = 0;
 let newRowUnhidden = false;
+let textAnimationTimeout = null;
 
 function suggestWord() {
     const rows = document.querySelectorAll('.row');
@@ -246,6 +247,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const instructionsElement = document.getElementById("instructions");
   animateText(instructionsElement, messageText);
 
+  // Repeat onscreen instructions if the user is ianctive for more than 1.5 seconds
+  let userLastInteractionTime = null;
+  const gameDiv = document.getElementById("game");
+  gameDiv.addEventListener("click", updateUserLastInteractionTime);
+  gameDiv.addEventListener("keypress", updateUserLastInteractionTime);
+
+  function updateUserLastInteractionTime() {
+    userLastInteractionTime = new Date().getTime();
+  }
+  const INACTIVITY_THRESHOLD = 3000;
+
+  function checkUserInactivity() {
+    const currentTime = new Date().getTime();
+    const timeDifference = currentTime - userLastInteractionTime;
+
+    if (timeDifference >= INACTIVITY_THRESHOLD) {
+      // Call your desired function here for user inactivity
+      const instructionsElement = document.getElementById("instructions");
+      const messageText = instructionsElement.textContent;
+      instructionsElement.textContent = '';
+      animateText(instructionsElement, messageText);
+    }
+  }
+
+  setInterval(checkUserInactivity, 3000);
+
 });
   
 function cycleCellColor(event) {
@@ -363,9 +390,13 @@ function showNextRow() {
 }
 
 function animateText(element, text, index = 0, delay = 50) {
+  if (textAnimationTimeout) {
+    clearTimeout(textAnimationTimeout);
+  }
+
   if (index < text.length) {
     element.textContent += text.charAt(index);
     index++;
-    setTimeout(() => animateText(element, text, index, delay), delay);
+    textAnimationTimeout = setTimeout(() => animateText(element, text, index, delay), delay);
   }
 }

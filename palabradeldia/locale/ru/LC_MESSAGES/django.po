@@ -9,37 +9,35 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-03 10:43+0200\n"
-"PO-Revision-Date: 2024-05-03 09:47+0200\n"
+"PO-Revision-Date: 2024-05-03 09:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: es\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.2\n"
 
 #: templates/palabradeldia/index.html:5
 #, fuzzy
 #| msgid "Let's solve the Word of the Day!"
 msgid "Let's solve la Palabra del Día!"
-msgstr "¡Resolvamos la Palabra del Día!"
+msgstr "Давайте решим Слово Дня!"
 
 #: templates/palabradeldia/index.html:25
 msgid "Suggest a Word"
-msgstr "Sugerir Palabra"
+msgstr "Подсказать Слово"
 
 #: templates/palabradeldia/index.html:28
 msgid "Type a word or click the button"
-msgstr "Escribe una palabra o presiona el botón"
+msgstr "Введи слово или нажми на кнопку"
 
 #: templates/palabradeldia/index.html:29
 msgid "Click on letters to change colors"
-msgstr "Haz clic en las letras para cambiar colores"
+msgstr "Измени цвета, нажимая на буквы"
 
 #: templates/palabradeldia/index.html:30
 msgid "No words satisfy the conditions"
-msgstr "No hay palabras que cumplan los criterios"
-
-#~ msgid "Palabra del Dia Solver"
-#~ msgstr "¡Resolvamos la Palabra del Día!"
+msgstr "Нет слов, удовлетворяющих условиям"
