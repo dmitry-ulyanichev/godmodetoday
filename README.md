@@ -23,6 +23,7 @@
     - Since some of the words contain **diacritic symbols** but the original application ignores them, the app should handle this part of the logic without errors.
     - The efficiency of word-guessing should be increased by giving priority to words that include more frequently occurring letters.
     - The rows should appear one after another, whenever the current one is filled with letters and colored. The focus should be put in the first cell of the newly displayed row.
-    - Once the row is filled with words, the cursor, when hovering over its cells, should change to "hand" **and the focus should disappear from the last cell**.
-    - Onscreen instructions suggesting the next action to the user must appear under each new row and change accordingly. To draw the user's attention, the instructions should appear as if they're typed. **In case of inactivity for more than 1.5s, the typing behavior should repeat.**
+    - Once the row is filled with words, the cursor, when hovering over its cells, should change to "hand" and the focus should disappear from the last cell.
+    - Onscreen instructions suggesting the next action to the user must appear above the button (under the current row) and change accordingly. To draw the user's attention, the instructions should appear as if they're typed. In case of inactivity for more than 3s, the typing behavior should repeat.
+    - The "Suggest a Word" button should be enabled at the right times in the algorithm and disabled at the wrong times to prevent clicks.
     - **Besides one suggested word, the user should be given an option of seeing other words that satisfy the conditions.**

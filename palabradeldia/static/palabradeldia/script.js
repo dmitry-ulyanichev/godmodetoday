@@ -83,6 +83,7 @@ function suggestWord() {
         }
         const randomWord = getRandomWord(prioritizedWords);
         fillRowWithWord(nextIncompleteRow, randomWord);
+        updateSuggestButton(true);
         focusFirstCellOfTopIncompleteRow();
 
         // Update the words variable with the validWords variable
@@ -184,12 +185,15 @@ function moveFocusToNextCell(event) {
   if (nextCell) {
     nextCell.focus();
   } else {
+    currentCell.blur(); // Removes focus from the last cell
     const row = currentCell.parentElement;
     if (isRowFilled(row)) {
-      console.log("We have filled the row.");
       row.querySelectorAll('.cell').forEach((cell) => {
         cell.classList.add('filled'); // Add the 'filled' class to the cell
       });
+
+      // Disable the "Suggest a Word button"
+      updateSuggestButton(true);
 
       // Update the instructions text
       const messageText = document.getElementById('color').textContent;
@@ -216,6 +220,9 @@ function unhideNextRow() {
       // Set focus on the first cell of the revealed row
       const firstCell = row.querySelector('.cell:not([disabled])');
       firstCell.focus();
+
+      // Enable the "Suggest a Word" button
+      updateSuggestButton(false);
 
       break;
     }
@@ -247,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const instructionsElement = document.getElementById("instructions");
   animateText(instructionsElement, messageText);
 
-  // Repeat onscreen instructions if the user is ianctive for more than 1.5 seconds
+  // Repeat onscreen instructions if the user is ianctive for more than 3 seconds
   let userLastInteractionTime = null;
   const gameDiv = document.getElementById("game");
   gameDiv.addEventListener("click", updateUserLastInteractionTime);
@@ -398,5 +405,17 @@ function animateText(element, text, index = 0, delay = 50) {
     element.textContent += text.charAt(index);
     index++;
     textAnimationTimeout = setTimeout(() => animateText(element, text, index, delay), delay);
+  }
+}
+
+function updateSuggestButton(isEnabled) {
+  const suggestButton = document.getElementById("suggestButton");
+
+  if (isEnabled) {
+    suggestButton.classList.add("disabled-button");
+    suggestButton.removeEventListener("click", suggestWord);
+  } else {
+    suggestButton.classList.remove("disabled-button");
+    suggestButton.addEventListener("click", suggestWord);
   }
 }
