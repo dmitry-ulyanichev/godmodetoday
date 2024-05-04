@@ -72,10 +72,7 @@ function suggestWord() {
     });    
     
     if (validWords.length === 0) {
-      const messageText = document.getElementById('none-left').textContent;
-      const instructionsElement = document.getElementById("instructions");
-      instructionsElement.textContent = '';
-      animateText(instructionsElement, messageText);
+      animateText('none-left');
       updateButton();
     } else {
       let prioritizedWords = validWords;
@@ -86,7 +83,7 @@ function suggestWord() {
       fillRowWithWord(nextIncompleteRow, randomWord);
       updateSuggestButton(true);
       if (nextIncompleteRow.getAttribute('id') === 'row6') {
-        updateButton();
+        updateButton(); // Game Over. The button changes to "Try Again?"
       }
       focusFirstCellOfTopIncompleteRow();
 
@@ -126,16 +123,13 @@ function fillRowWithWord(row, word) {
   }
 
   // Update the instructions text but first check if it isn't the last row
-  // Update the instructions text but first check if it isn't the last row
-  let messageText = '';
+  let messageID = '';
   if (row.getAttribute('id') != 'row6') {
-    messageText = document.getElementById('color').textContent;
+    messageID = 'color';
   } else {
-    messageText = document.getElementById('game-over').textContent;
+    messageID = 'game-over';
   }
-  const instructionsElement = document.getElementById("instructions");
-  instructionsElement.textContent = '';
-  animateText(instructionsElement, messageText);
+  animateText(messageID);
 
 }
 
@@ -206,10 +200,7 @@ function moveFocusToNextCell(event) {
       updateSuggestButton(true);
 
       // Update the instructions text
-      const messageText = document.getElementById('color').textContent;
-      const instructionsElement = document.getElementById("instructions");
-      instructionsElement.textContent = '';
-      animateText(instructionsElement, messageText);
+      animateText('color');
     }
   }
 }
@@ -219,10 +210,7 @@ function unhideNextRow() {
   for (const row of rows) {
     if (row.classList.contains('hidden')) {
       // Show instructions for the unhidden row
-      const messageText = document.getElementById('type').textContent;
-      const instructionsElement = document.getElementById("instructions");
-      instructionsElement.textContent = '';
-      animateText(instructionsElement, messageText);
+      animateText('type');
 
       row.classList.remove('hidden');
       row.classList.add('visible');
@@ -260,9 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
   // Animate the instructions text
-  const messageText = document.getElementById('type').textContent;
-  const instructionsElement = document.getElementById("instructions");
-  animateText(instructionsElement, messageText);
+  animateText('type');
 
   // Repeat onscreen instructions if the user is ianctive for more than 3 seconds
   let userLastInteractionTime = null;
@@ -281,10 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (timeDifference >= INACTIVITY_THRESHOLD) {
       // Call your desired function here for user inactivity
-      const instructionsElement = document.getElementById("instructions");
-      const messageText = instructionsElement.textContent;
-      instructionsElement.textContent = '';
-      animateText(instructionsElement, messageText);
+
+      animateText("most-recent-instruction");
     }
   }
 
@@ -406,15 +390,22 @@ function showNextRow() {
   }
 }
 
-function animateText(element, text, index = 0, delay = 50) {
+function animateText(messageID, index = 0, delay = 50) {
+  const instructionsElement = document.getElementById("instructions");
+  if (index === 0) { // Save the message as the most recent instruction and clear the old one when the function is first called
+    const mostRecentInstructionElement = document.getElementById("most-recent-instruction");
+    mostRecentInstructionElement.textContent = document.getElementById(messageID).textContent;
+    instructionsElement.textContent = '';
+  }
+  const messageElementTextContent = document.getElementById(messageID).textContent;
   if (textAnimationTimeout) {
     clearTimeout(textAnimationTimeout);
   }
 
-  if (index < text.length) {
-    element.textContent += text.charAt(index);
+  if (index < messageElementTextContent.length) {
+    instructionsElement.textContent += messageElementTextContent.charAt(index);
     index++;
-    textAnimationTimeout = setTimeout(() => animateText(element, text, index, delay), delay);
+    textAnimationTimeout = setTimeout(() => animateText(messageID, index, delay), delay);
   }
 }
 
