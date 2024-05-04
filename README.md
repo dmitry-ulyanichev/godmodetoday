@@ -27,4 +27,4 @@
     - Onscreen instructions suggesting the next action to the user must appear above the button (under the current row) and change accordingly. To draw the user's attention, the instructions should appear as if they're typed. In case of inactivity for more than 3s, the typing behavior should repeat. After the last, 6th row has appeared, the instructions should change to "That was the last attempt" and the button should change to "Try again".
     - **In addition to the onscreen instructions, the row on which an action is to be performed should be highlighted with animation: each cell should jump up and down a little bit one after another in a wavelike pattern.**
     - The "Suggest a Word" button should be enabled at the right times in the algorithm and disabled at the wrong times to prevent unnecessary clicks.
-    - **Besides one suggested word, the user should be given an option of seeing other words that satisfy the conditions.**
+    - Besides one suggested word, the user should be given an option of seeing other words that satisfy the conditions. The select element should be hidden if the last attempt was made or if there are no more options to display.

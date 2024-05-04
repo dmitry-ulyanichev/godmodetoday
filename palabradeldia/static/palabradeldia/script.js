@@ -74,6 +74,7 @@ function suggestWord() {
     if (validWords.length === 0) {
       animateText('none-left');
       updateButton();
+      document.getElementById('more-options').classList.add('hidden');
     } else {
       let prioritizedWords = validWords;
       if (tries <= 2) {
@@ -82,13 +83,20 @@ function suggestWord() {
       const randomWord = getRandomWord(prioritizedWords);
       fillRowWithWord(nextIncompleteRow, randomWord);
       updateSuggestButton(true);
-      if (nextIncompleteRow.getAttribute('id') === 'row6') {
-        updateButton(); // Game Over. The button changes to "Try Again?"
-      }
-      focusFirstCellOfTopIncompleteRow();
+      if (nextIncompleteRow.getAttribute('id') != 'row6') {
+        focusFirstCellOfTopIncompleteRow();
 
-      // Update the words variable with the validWords variable
-      words = validWords;
+        // Display other options
+        if (validWords.length <= 100) {
+          displayWords(validWords, randomWord);
+        }
+
+        // Update the words variable with the validWords variable
+        words = validWords;
+      } else {
+        updateButton(); // Game Over. The button changes to "Try Again?"
+        document.getElementById('more-options').classList.add('hidden');
+      }
     }
     tries++;
   }
@@ -202,6 +210,7 @@ function prefillGreens(row) {
     const letter = cells[i].value.toUpperCase();
     if (greenLettersAndPositions[letter] && greenLettersAndPositions[letter].includes(i)) {
       cells[i].style.backgroundColor = 'green';
+      cells[i].style.color = 'white';
     }
   }
 }
@@ -276,6 +285,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (firstCell) {
       firstCell.focus();
     }
+
+  // Fill the last row with the selected option
+  const wordSelect = document.getElementById('wordSelect');
+  wordSelect.addEventListener("change", function() {
+    const selectedValue = this.value;
+    const row = document.querySelector(".row.visible:not([data-processed='true'])");
+    fillRowWithWord(row, selectedValue);
+  });
   
   // Animate the instructions text
   animateText('type');
@@ -327,9 +344,9 @@ function cycleCellColor(event) {
     }
 
     cell.style.backgroundColor = newColor;
-    if (!cell.style.color) {
-      cell.style.color = "white";
-    }
+    
+    cell.style.color = "white";
+    
     cell.blur();
 
     // Check if all cells in the row are colored and a new row has not been unhidden yet
@@ -464,4 +481,22 @@ function updateButton() {
 
 function reloadPage() {
   location.reload();
+}
+
+function displayWords(words, wordToExclude) {
+  document.getElementById('more-options').classList.remove('hidden');
+  const wordSelect = document.getElementById("wordSelect");
+  wordSelect.setAttribute("size", Math.min(Math.max(words.length-1, 2), 8));
+  wordSelect.innerHTML = "";
+
+  words.forEach((word) => {
+    if (word != wordToExclude) {
+      const option = document.createElement("option");
+      const uppercasedWord = word.toUpperCase();
+      option.value = uppercasedWord;
+      option.textContent = uppercasedWord;
+
+      wordSelect.appendChild(option);
+    }
+  });
 }

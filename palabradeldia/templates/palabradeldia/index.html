@@ -23,6 +23,10 @@
         </div>
         <div id="instructions"></div>
         <button id="suggestButton" onclick="suggestWord()">{% translate "Suggest a Word" %}</button>
+        <div id="more-options" class="hidden">
+            <h3>{% translate "More Options" %}</h3>
+            <select id="wordSelect" style="width: 214px;"></select>
+        </div>
     </div>
     <div id="messages" class="hidden-text">
         <span id="type" class="hidden">{% translate "Type a word or click the button" %}</span>

@@ -41,6 +41,11 @@ body {
     cursor: pointer;
 }
 
+#instructions {
+    margin-top: 17px;
+    margin-bottom: 10px;
+}
+
 #suggestButton {
     font-size: 20px;
     margin-top: 10px;
@@ -51,4 +56,22 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+#wordSelect {
+    padding: 10px 0;
+    margin: 15px auto 15px auto;
+    display: block;
+    font-size: 23px;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+#wordSelect:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+
+#wordSelect option {
+    margin-bottom: 6px;
 }
