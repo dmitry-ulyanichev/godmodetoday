@@ -104,7 +104,7 @@ function getNextIncompleteRow(rows) {
 }
 
 function isRowFilled(row) {
-return Array.from(row.querySelectorAll('.cell')).every(cell => cell.value.length > 0);
+  return Array.from(row.querySelectorAll('.cell')).every(cell => cell.value.length > 0);
 }
 
 function isRowColored(row) {
@@ -112,7 +112,7 @@ function isRowColored(row) {
 }
 
 function getRandomWord(words) {
-    return words[Math.floor(Math.random() * words.length)];
+  return words[Math.floor(Math.random() * words.length)];
 }
 
 function fillRowWithWord(row, word) {
@@ -129,6 +129,10 @@ function fillRowWithWord(row, word) {
   } else {
     messageID = 'game-over';
   }
+
+  // Change the background to green for letters that are in place based on the previous feedback
+  prefillGreens(row);
+
   animateText(messageID);
 
 }
@@ -179,6 +183,28 @@ function handleGreenOrange(color, rows) {
 
     return lettersAndPositions;
 }
+
+function prefillGreens(row) {
+  // 1. Select relevant rows as previous siblings to the current row and call handleGreenOrange on them
+  const siblingRows = [];
+
+  let siblingRow = row.previousElementSibling;
+  while (siblingRow) {
+    siblingRows.push(siblingRow);
+    siblingRow = siblingRow.previousElementSibling;
+  }
+  const greenLettersAndPositions = handleGreenOrange('green', siblingRows);
+  console.log("Green letters: " + JSON.stringify(greenLettersAndPositions));
+
+  // 2. Check if the letters in the new row are placed correctly and change their background to green
+  const cells = row.querySelectorAll('.cell');
+  for (let i = 0; i < cells.length; i++) {
+    const letter = cells[i].value.toUpperCase();
+    if (greenLettersAndPositions[letter] && greenLettersAndPositions[letter].includes(i)) {
+      cells[i].style.backgroundColor = 'green';
+    }
+  }
+}
   
 function moveFocusToNextCell(event) {
   const currentCell = event.target;
@@ -196,11 +222,15 @@ function moveFocusToNextCell(event) {
         cell.classList.add('filled'); // Add the 'filled' class to the cell
       });
 
+      // Change the background to green for letters that are in place based on the previous feedback
+      prefillGreens(row);
+
       // Disable the "Suggest a Word button"
       updateSuggestButton(true);
 
       // Update the instructions text
       animateText('color');
+
     }
   }
 }
@@ -297,6 +327,10 @@ function cycleCellColor(event) {
     }
 
     cell.style.backgroundColor = newColor;
+    if (!cell.style.color) {
+      cell.style.color = "white";
+    }
+    cell.blur();
 
     // Check if all cells in the row are colored and a new row has not been unhidden yet
     if (isRowColored(row) && !newRowUnhidden) {
