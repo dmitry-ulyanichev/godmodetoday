@@ -207,7 +207,7 @@ function prefillGreens(row) {
   // 2. Check if the letters in the new row are placed correctly and change their background to green
   const cells = row.querySelectorAll('.cell');
   for (let i = 0; i < cells.length; i++) {
-    const letter = removeDiacritics(cells[i].value).toUpperCase();
+    const letter = removeDiacritics(cells[i].value.toLowerCase()).toUpperCase();
     if (greenLettersAndPositions[letter] && greenLettersAndPositions[letter].includes(i)) {
       cells[i].style.backgroundColor = 'green';
       cells[i].style.color = 'white';
@@ -271,6 +271,13 @@ function unhideNextRow() {
 document.addEventListener('DOMContentLoaded', () => {
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => {
+
+    cell.addEventListener('dblclick', event => {
+      if (isMobile) {
+        event.preventDefault();
+      }
+    });
+
     cell.addEventListener('input', event => {
       moveFocusToNextCell(event);
 
