@@ -2,6 +2,7 @@ let letterFrequency = ['E', 'A', 'O', 'S', 'N', 'R', 'I', 'L', 'D', 'U', 'T', 'C
 let tries = 0;
 let newRowUnhidden = false;
 let textAnimationTimeout = null;
+const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
 
 function suggestWord() {
   const rows = document.querySelectorAll('.row');
@@ -84,7 +85,7 @@ function suggestWord() {
       fillRowWithWord(nextIncompleteRow, randomWord);
       updateSuggestButton(true);
       if (nextIncompleteRow.getAttribute('id') != 'row6') {
-        focusFirstCellOfTopIncompleteRow();
+        resetNewRowUnhidden();
 
         // Display other options
         if (validWords.length > 1 && validWords.length <= 100) {
@@ -202,12 +203,11 @@ function prefillGreens(row) {
     siblingRow = siblingRow.previousElementSibling;
   }
   const greenLettersAndPositions = handleGreenOrange('green', siblingRows);
-  console.log("Green letters: " + JSON.stringify(greenLettersAndPositions));
 
   // 2. Check if the letters in the new row are placed correctly and change their background to green
   const cells = row.querySelectorAll('.cell');
   for (let i = 0; i < cells.length; i++) {
-    const letter = cells[i].value.toUpperCase();
+    const letter = removeDiacritics(cells[i].value).toUpperCase();
     if (greenLettersAndPositions[letter] && greenLettersAndPositions[letter].includes(i)) {
       cells[i].style.backgroundColor = 'green';
       cells[i].style.color = 'white';
@@ -254,9 +254,11 @@ function unhideNextRow() {
       row.classList.remove('hidden');
       row.classList.add('visible');
 
-      // Set focus on the first cell of the revealed row
+      // Set focus on the first cell of the revealed row (not on mobile phones)
       const firstCell = row.querySelector('.cell:not([disabled])');
-      firstCell.focus();
+      if (!isMobile) {
+        firstCell.focus();
+      }
 
       // Enable the "Suggest a Word" button
       updateSuggestButton(false);
@@ -274,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const row = event.target.parentElement;
       if (isRowFilled(row)) {
-        focusFirstCellOfTopIncompleteRow();
+        resetNewRowUnhidden();
       }
     });
     cell.addEventListener('click', cycleCellColor);
@@ -282,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Set focus on the first cell of the first row when the page is loaded
   const firstCell = document.querySelector('.row:not(.hidden) .cell:not([disabled])');
-    if (firstCell) {
+    if (firstCell && !isMobile) {
       firstCell.focus();
     }
 
@@ -365,21 +367,20 @@ function cycleCellColor(event) {
         const newRow = document.querySelector('.row:not(.hidden):not([data-processed])');
         if (newRow) {
           const firstCell = newRow.querySelector('.cell:not([disabled])');
-          firstCell.focus();
+          if (!isMobile) {
+            firstCell.focus();
+          }
         }
       }, 10);
     }
   }
 }
 
-function focusFirstCellOfTopIncompleteRow() {
+function resetNewRowUnhidden() {
   const rows = document.querySelectorAll('.row');
   let currentRow = getNextIncompleteRow(rows);
-
   if (currentRow) {
-    const firstCell = currentRow.querySelector('.cell:not([disabled])');
-    firstCell.focus();
-    newRowUnhidden = false; // Reset the flag when focusing on the first cell of the new row
+    newRowUnhidden = false;
   }
 }
 
