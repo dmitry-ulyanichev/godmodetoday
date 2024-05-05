@@ -293,20 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const row = document.querySelector(".row.visible:not([data-processed='true'])");
     fillRowWithWord(row, selectedValue);
   });
-
-  // Animate the last row when instructions change
-  // const instructionsElement = document.getElementById("instructions");
-  // const observer = new MutationObserver((mutations) => {
-  //   mutations.forEach((mutation) => {
-  //     if (mutation.type === 'childList' && mutation.target === instructionsElement) {
-  //       console.log("Instructions have changed. Animation is triggered.");
-  //       setTimeout(() => {
-  //         animateRow();
-  //       }, 1500);
-  //     }
-  //   });
-  // });
-  // observer.observe(instructionsElement, { childList: true });  
   
   // Animate the instructions text
   animateText('type', 0, animateRow);
@@ -475,7 +461,7 @@ function animateText(messageID, index, callback) {
     textAnimationTimeout = setTimeout(() => animateText(messageID, index, callback), delay);
   } else {
     // Check the message ID before calling the callback function
-    if (callback && messageID !== 'none-left' && messageID !== 'game-over') {
+    if (callback && messageID != 'none-left' && messageID != 'game-over') {
       callback();
     }
   }
@@ -496,7 +482,7 @@ function animateRow() {
     cells.forEach((cell) => {
       cell.classList.remove("animate-on-action");
     });
-  }, 1000); // Remove the animate-on-action class from all cells after 1 second
+  }, 1200); // Remove the animate-on-action class from all cells after 1.2 sec
 }
 
 function updateSuggestButton(isEnabled) {
