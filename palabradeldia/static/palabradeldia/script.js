@@ -72,7 +72,7 @@ function suggestWord() {
     });    
     
     if (validWords.length === 0) {
-      animateText('none-left');
+      animateText('none-left', 0, animateRow);
       updateButton();
       document.getElementById('more-options').classList.add('hidden');
     } else {
@@ -87,7 +87,7 @@ function suggestWord() {
         focusFirstCellOfTopIncompleteRow();
 
         // Display other options
-        if (validWords.length <= 100) {
+        if (validWords.length > 1 && validWords.length <= 100) {
           displayWords(validWords, randomWord);
         }
 
@@ -141,7 +141,7 @@ function fillRowWithWord(row, word) {
   // Change the background to green for letters that are in place based on the previous feedback
   prefillGreens(row);
 
-  animateText(messageID);
+  animateText(messageID, 0, animateRow);
 
 }
 
@@ -238,7 +238,7 @@ function moveFocusToNextCell(event) {
       updateSuggestButton(true);
 
       // Update the instructions text
-      animateText('color');
+      animateText('color', 0, animateRow);
 
     }
   }
@@ -249,7 +249,7 @@ function unhideNextRow() {
   for (const row of rows) {
     if (row.classList.contains('hidden')) {
       // Show instructions for the unhidden row
-      animateText('type');
+      animateText('type', 0, animateRow);
 
       row.classList.remove('hidden');
       row.classList.add('visible');
@@ -293,9 +293,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const row = document.querySelector(".row.visible:not([data-processed='true'])");
     fillRowWithWord(row, selectedValue);
   });
+
+  // Animate the last row when instructions change
+  // const instructionsElement = document.getElementById("instructions");
+  // const observer = new MutationObserver((mutations) => {
+  //   mutations.forEach((mutation) => {
+  //     if (mutation.type === 'childList' && mutation.target === instructionsElement) {
+  //       console.log("Instructions have changed. Animation is triggered.");
+  //       setTimeout(() => {
+  //         animateRow();
+  //       }, 1500);
+  //     }
+  //   });
+  // });
+  // observer.observe(instructionsElement, { childList: true });  
   
   // Animate the instructions text
-  animateText('type');
+  animateText('type', 0, animateRow);
 
   // Repeat onscreen instructions if the user is ianctive for more than 3 seconds
   let userLastInteractionTime = null;
@@ -315,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timeDifference >= INACTIVITY_THRESHOLD) {
       // Call your desired function here for user inactivity
 
-      animateText("most-recent-instruction");
+      animateText("most-recent-instruction", 0, animateRow);
     }
   }
 
@@ -441,8 +455,10 @@ function showNextRow() {
   }
 }
 
-function animateText(messageID, index = 0, delay = 50) {
+function animateText(messageID, index, callback) {
   const instructionsElement = document.getElementById("instructions");
+  const delay = 50;
+
   if (index === 0) { // Save the message as the most recent instruction and clear the old one when the function is first called
     const mostRecentInstructionElement = document.getElementById("most-recent-instruction");
     mostRecentInstructionElement.textContent = document.getElementById(messageID).textContent;
@@ -456,8 +472,31 @@ function animateText(messageID, index = 0, delay = 50) {
   if (index < messageElementTextContent.length) {
     instructionsElement.textContent += messageElementTextContent.charAt(index);
     index++;
-    textAnimationTimeout = setTimeout(() => animateText(messageID, index, delay), delay);
+    textAnimationTimeout = setTimeout(() => animateText(messageID, index, callback), delay);
+  } else {
+    // Check the message ID before calling the callback function
+    if (callback && messageID !== 'none-left' && messageID !== 'game-over') {
+      callback();
+    }
   }
+}
+
+function animateRow() {
+  const rows = document.querySelectorAll(".row.visible");
+  const lastRow = rows[rows.length - 1];
+  const cells = lastRow.querySelectorAll(".cell");
+
+  cells.forEach((cell, index) => {
+    setTimeout(() => {
+      cell.classList.add("animate-on-action");
+    }, index * 100); // Set a delay of 100ms between each cell
+  });
+
+  setTimeout(() => {
+    cells.forEach((cell) => {
+      cell.classList.remove("animate-on-action");
+    });
+  }, 1000); // Remove the animate-on-action class from all cells after 1 second
 }
 
 function updateSuggestButton(isEnabled) {

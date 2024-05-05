@@ -25,6 +25,7 @@
     - The rows should appear one after another, whenever the current one is filled with letters and colored. The focus should be put in the first cell of the newly displayed row.
     - Once the row is filled with words, the cursor, when hovering over its cells, should change to "hand" and the focus should disappear from the last cell.
     - Onscreen instructions suggesting the next action to the user must appear above the button (under the current row) and change accordingly. To draw the user's attention, the instructions should appear as if they're typed. In case of inactivity for more than 3s, the typing behavior should repeat. After the last, 6th row has appeared, the instructions should change to "That was the last attempt" and the button should change to "Try again".
-    - **In addition to the onscreen instructions, the row on which an action is to be performed should be highlighted with animation: each cell should jump up and down a little bit one after another in a wavelike pattern.**
+    - In addition to the onscreen instructions, the row on which an action is to be performed should be highlighted with animation: each cell should jump up and down a little bit one after another in a wavelike pattern.
     - The "Suggest a Word" button should be enabled at the right times in the algorithm and disabled at the wrong times to prevent unnecessary clicks.
     - Besides one suggested word, the user should be given an option of seeing other words that satisfy the conditions. The select element should be hidden if the last attempt was made or if there are no more options to display.
+    - **See if translations/definitions for the suggested words can be added with the use of GenAI API.**

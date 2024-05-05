@@ -1,3 +1,15 @@
+.animate-on-action {
+    animation: animate-cell 1s ease-in-out;
+}
+  
+@keyframes animate-cell {
+    0% { transform: translateY(0px); }
+    25% { transform: translateY(-3px); }
+    50% { transform: translateY(0px); }
+    75% { transform: translateY(3px); }
+    100% { transform: translateY(0px); }
+}
+
 body {
     text-align: center;
 }
