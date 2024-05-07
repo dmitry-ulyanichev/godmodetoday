@@ -4,6 +4,15 @@
 
 {% block title %}Godmode{% endblock %}
 {% block content %}
-    <h1>{% translate "Welcome!" %}</h1>
-    <p><a href="{% url 'palabradeldia:index' %}">Palabra del Dia</a></p>     
+    <div class="app-link-container">
+        <div class="app-link">
+            <h2 class="app-title">{% translate "Palabra del Día Solver" %}</h2>
+            <p class="app-description">
+                {% blocktrans %}
+                Helping you guess the word of the day from <a href="https://lapalabradeldia.com/" target="_blank">La Palabra del Día</a>. You can cheat your way to the victory right from the start, but we suggest only getting help when you're close to losing the game!
+                {% endblocktrans %}
+            </p>
+            <a href="{% url 'palabradeldia:index' %}" class="app-button">{% translate "Start Solving" %}</a>
+        </div>
+    </div> 
 {% endblock %}
