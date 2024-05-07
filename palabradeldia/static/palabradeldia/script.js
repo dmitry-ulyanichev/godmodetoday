@@ -89,7 +89,7 @@ function suggestWord() {
 
         // Display other options
         if (validWords.length > 1 && validWords.length <= 100) {
-          displayWords(validWords, randomWord);
+          displayWords(validWords, randomWord, greenLettersAndPositions);
         }
 
         // Update the words variable with the validWords variable
@@ -294,14 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (firstCell && !isMobile) {
       firstCell.focus();
     }
-
-  // Fill the last row with the selected option
-  const wordSelect = document.getElementById('wordSelect');
-  wordSelect.addEventListener("change", function() {
-    const selectedValue = this.value;
-    const row = document.querySelector(".row.visible:not([data-processed='true'])");
-    fillRowWithWord(row, selectedValue);
-  });
   
   // Animate the instructions text
   animateText('type', 0, animateRow);
@@ -365,6 +357,8 @@ function cycleCellColor(event) {
       row.nextElementSibling.classList.add('hidden');
       unhideNextRow();
       newRowUnhidden = true;
+      // Hide the more-options element
+      document.getElementById('more-options').classList.add('hidden');
     }
 
     // If a new row has been unhidden and the clicked cell is in the previous row,
@@ -516,20 +510,44 @@ function reloadPage() {
   location.reload();
 }
 
-function displayWords(words, wordToExclude) {
+function displayWords(words, wordToExclude, greenLettersAndPositions) {
   document.getElementById('more-options').classList.remove('hidden');
   const wordSelect = document.getElementById("wordSelect");
-  wordSelect.setAttribute("size", Math.min(Math.max(words.length-1, 2), 8));
+  const selectValue = document.querySelector('.selected-value');
+  const options = document.querySelector('.options');
+
   wordSelect.innerHTML = "";
+  options.innerHTML = "";
 
   words.forEach((word) => {
     if (word != wordToExclude) {
-      const option = document.createElement("option");
       const uppercasedWord = word.toUpperCase();
-      option.value = uppercasedWord;
-      option.textContent = uppercasedWord;
 
-      wordSelect.appendChild(option);
+      const divOption = document.createElement("div");
+      divOption.classList.add('option');
+
+      for (let i = 0; i < uppercasedWord.length; i++) {
+        const char = uppercasedWord[i];
+        const charDiv = document.createElement("div");
+        charDiv.textContent = char;
+        charDiv.classList.add('char');
+
+        const charWithoutDiacritics = removeDiacritics(char.toLowerCase()).toUpperCase();
+
+        if (greenLettersAndPositions[charWithoutDiacritics] && greenLettersAndPositions[charWithoutDiacritics].includes(i)) {
+          charDiv.style.backgroundColor = 'rgb(144, 200, 144)';
+          charDiv.style.color = 'white';
+        }
+
+        divOption.appendChild(charDiv);
+      }
+
+      divOption.addEventListener('click', function() {
+        selectValue.textContent = uppercasedWord;
+        fillRowWithWord(document.querySelector(".row.visible:not([data-processed='true'])"), uppercasedWord);
+      });
+
+      options.appendChild(divOption);
     }
   });
 }
