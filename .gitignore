@@ -1,0 +1,8 @@
+# Ignore the .env file
+.env
+
+# Ignore build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

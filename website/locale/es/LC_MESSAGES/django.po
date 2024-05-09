@@ -40,7 +40,7 @@ msgstr ""
 
 #: templates/website/homepage.html:15
 msgid "Start Solving"
-msgstr "Comenzar a Resolver"
+msgstr "Comenzar"
 
 #~ msgid "Welcome!"
 #~ msgstr "Bienvenido!"
