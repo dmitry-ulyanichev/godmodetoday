@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 22:43+0200\n"
-"PO-Revision-Date: 2024-05-04 22:44+0200\n"
+"POT-Creation-Date: 2024-05-10 12:33+0200\n"
+"PO-Revision-Date: 2024-05-10 12:36+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -32,22 +32,30 @@ msgstr "Подсказать Слово"
 msgid "More Options"
 msgstr "Другие Варианты"
 
-#: templates/palabradeldia/index.html:32
+#: templates/palabradeldia/index.html:36
+msgid "How to Use This Solver"
+msgstr "Как пользоваться приложением?"
+
+#: templates/palabradeldia/index.html:40
 msgid "Type a word or click the button"
 msgstr "Введи слово или нажми на кнопку"
 
-#: templates/palabradeldia/index.html:33
+#: templates/palabradeldia/index.html:41
 msgid "Click on letters to change colors"
 msgstr "Измени цвета, нажимая на буквы"
 
-#: templates/palabradeldia/index.html:34
+#: templates/palabradeldia/index.html:42
 msgid "No words satisfy the conditions"
 msgstr "Нет слов, удовлетворяющих условиям"
 
-#: templates/palabradeldia/index.html:35
+#: templates/palabradeldia/index.html:43
+msgid "That's the last word on the list"
+msgstr "Это последнее слово в списке"
+
+#: templates/palabradeldia/index.html:44
 msgid "That was the last attempt"
 msgstr "Это была последняя попытка"
 
-#: templates/palabradeldia/index.html:36
+#: templates/palabradeldia/index.html:45
 msgid "Try Again?"
 msgstr "Еще раз?"

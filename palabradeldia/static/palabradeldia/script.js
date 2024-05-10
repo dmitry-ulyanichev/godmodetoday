@@ -86,18 +86,19 @@ function suggestWord() {
       updateSuggestButton(true);
       if (nextIncompleteRow.getAttribute('id') != 'row6') {
         resetNewRowUnhidden();
-
-        // Display other options
-        if (validWords.length > 1 && validWords.length <= 100) {
-          displayWords(validWords, randomWord, greenLettersAndPositions);
-        }
-
-        // Update the words variable with the validWords variable
-        words = validWords;
       } else {
         updateButton(); // Game Over. The button changes to "Try Again?"
-        document.getElementById('more-options').classList.add('hidden');
       }
+      // Display other options
+      if (validWords.length > 1 && validWords.length <= 100) {
+        displayWords(validWords, randomWord, greenLettersAndPositions);
+      } else if (validWords.length === 1) {
+        animateText('one-word-left', 0, animateRow);
+        updateButton();
+      }
+
+      // Update the words variable with the validWords variable
+      words = validWords;
     }
     tries++;
   }
@@ -322,6 +323,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(checkUserInactivity, 3000);
 
+  // Prevent video container from jumping up when game div height shrinks
+  // create a new MutationObserver
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.target.id === 'more-options' && !mutation.target.classList.contains('hidden')) {
+        // calculate the position of the bottom edge of gameDiv
+        const gameDiv = document.getElementById('game');
+        const gameDivBottom = gameDiv.offsetTop + gameDiv.offsetHeight;
+
+        // get videoContainer
+        const videoContainer = document.getElementById('video-container');
+
+        // check if gameDivBottom is greater than the top value of videoContainer
+        const videoContainerTop = videoContainer.offsetTop;
+        videoContainer.style.top = `${gameDivBottom}px`;
+        if (gameDivBottom > videoContainerTop) {
+          // set the top value of videoContainer to gameDivBottom
+          videoContainer.style.top = `${gameDivBottom}px`;
+        }
+      }
+    });
+  });
+
+  // configuration of the observer
+  const config = { attributes: true, childList: true, subtree: true };
+
+  // pass in the target node, as well as the observer options
+  observer.observe(document.getElementById('more-options'), config);
+
 });
   
 function cycleCellColor(event) {
@@ -463,7 +493,7 @@ function animateText(messageID, index, callback) {
     textAnimationTimeout = setTimeout(() => animateText(messageID, index, callback), delay);
   } else {
     // Check the message ID before calling the callback function
-    if (callback && messageID != 'none-left' && messageID != 'game-over') {
+    if (callback && messageID != 'none-left' && messageID != 'game-over' && messageID != 'one-word-left') {
       callback();
     }
   }
@@ -512,6 +542,7 @@ function reloadPage() {
 
 function displayWords(words, wordToExclude, greenLettersAndPositions) {
   document.getElementById('more-options').classList.remove('hidden');
+  
   const wordSelect = document.getElementById("wordSelect");
   const selectValue = document.querySelector('.selected-value');
   const options = document.querySelector('.options');

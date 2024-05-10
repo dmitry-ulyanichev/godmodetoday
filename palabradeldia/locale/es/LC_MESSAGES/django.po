@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 22:43+0200\n"
-"PO-Revision-Date: 2024-05-04 22:45+0200\n"
+"POT-Creation-Date: 2024-05-10 12:34+0200\n"
+"PO-Revision-Date: 2024-05-10 12:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -31,23 +31,31 @@ msgstr "Sugerir Palabra"
 msgid "More Options"
 msgstr "Más Opciones"
 
-#: templates/palabradeldia/index.html:32
+#: templates/palabradeldia/index.html:36
+msgid "How to Use This Solver"
+msgstr "¿Cómo usar esta app?"
+
+#: templates/palabradeldia/index.html:40
 msgid "Type a word or click the button"
 msgstr "Escribe una palabra o presiona el botón"
 
-#: templates/palabradeldia/index.html:33
+#: templates/palabradeldia/index.html:41
 msgid "Click on letters to change colors"
 msgstr "Haz clic en las letras para cambiar colores"
 
-#: templates/palabradeldia/index.html:34
+#: templates/palabradeldia/index.html:42
 msgid "No words satisfy the conditions"
 msgstr "No hay palabras que cumplan los criterios"
 
-#: templates/palabradeldia/index.html:35
+#: templates/palabradeldia/index.html:43
+msgid "That's the last word on the list"
+msgstr "Esa fue la última palabra de la lista"
+
+#: templates/palabradeldia/index.html:44
 msgid "That was the last attempt"
 msgstr "Ese fue el último intento"
 
-#: templates/palabradeldia/index.html:36
+#: templates/palabradeldia/index.html:45
 msgid "Try Again?"
 msgstr "¿Intentar de Nuevo?"
 
