@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Ignore the STATIC_ROOT folder
+/static_root/
