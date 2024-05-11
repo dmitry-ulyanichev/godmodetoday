@@ -1,0 +1,34 @@
+{% extends 'website/template.html' %}
+{% load i18n static %}
+{% load static %}
+
+{% block title %}{% translate "Simulate plant breeding to find the perfect gene!" %}{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'breedrust/styles.css' %}">
+    <script src="{% static 'breedrust/script.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div id="simulator">
+        <div id="rows">
+            {% for i in "123456789012345678901234567890" %}
+            <div class="row{% if forloop.counter|add:'-1' > 2 %} hidden{% endif %}{% if forloop.counter|add:'-1' <= 2 %} visible{% endif %}">
+                {% for j in "123456" %}
+                <input type="text" class="cell" maxlength="1">
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div id="instructions"></div>
+        <button id="runSimButton" class="disabled-button" onclick="runSimulation()">{% translate "Run Simulation" %}</button>
+    </div>
+    <div id="video-container">
+        <h3>{% translate "How to Use Breeding Simulator" %}</h3>
+        <p>video placeholder</p>
+    </div>
+    <div id="messages">
+        <span id="type" class="hidden">{% translate "Provide genes. Only X, W, Y, G, H allowed." %}</span>
+        <span id="add-or-run" class="hidden">{% translate "Add more genes or run simulation!" %}</span>
+        <span id="run" class="hidden">{% translate "You can't add more genes. Run simulation!" %}</span>
+        <span id="most-recent-instruction" class="hidden"></span>
+    </div>
+{% endblock %}

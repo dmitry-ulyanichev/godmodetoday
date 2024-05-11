@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("website.urls")),
     path('palabradeldia/', include(('palabradeldia.urls', 'palabradeldia'), namespace='palabradeldia')),
+    path('breedrust/', include(('breedrust.urls', 'breedrust'), namespace='breedrust')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog')
 ]

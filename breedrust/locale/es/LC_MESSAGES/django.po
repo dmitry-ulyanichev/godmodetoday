@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-11 16:14+0200\n"
+"PO-Revision-Date: 2024-05-11 16:21+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: templates/breedrust/index.html:5
+msgid "Simulate plant breeding to find the perfect gene!"
+msgstr "¡Simula la cría de plantas para encontrar el gen perfecto!"
+
+#: templates/breedrust/index.html:22
+msgid "Run Simulation"
+msgstr "Ejecutar Simulación"
+
+#: templates/breedrust/index.html:25
+msgid "How to Use Breeding Simulator"
+msgstr "Cómo Usar el Simulador de Cría"
+
+#: templates/breedrust/index.html:29
+msgid "Provide genes. Only X, W, Y, G, H allowed."
+msgstr "Proporciona genes. Solo se permiten X, W, Y, G, H."
+
+#: templates/breedrust/index.html:30
+msgid "Add more genes or run simulation!"
+msgstr "¡Añade más genes o ejecuta la simulación!"
+
+#: templates/breedrust/index.html:31
+msgid "You can't add more genes. Run simulation!"
+msgstr "No puedes añadir más genes. ¡Ejecuta la simulación!"

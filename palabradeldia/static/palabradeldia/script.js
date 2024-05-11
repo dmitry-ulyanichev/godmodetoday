@@ -463,16 +463,6 @@ function prioritizeWordsByLetterFrequency(words, letterFrequency) {
     return filteredWords;
 }
 
-function showNextRow() {
-  const rows = document.querySelectorAll('.row');
-  for (const row of rows) {
-    if (row.classList.contains('hidden')) {
-      row.classList.remove('hidden');
-      break;
-    }
-  }
-}
-
 function animateText(messageID, index, callback) {
   const instructionsElement = document.getElementById("instructions");
   const delay = 50;
