@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-11 16:14+0200\n"
-"PO-Revision-Date: 2024-05-11 16:21+0200\n"
+"PO-Revision-Date: 2024-05-11 17:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -33,7 +33,7 @@ msgstr "Cómo Usar el Simulador de Cría"
 
 #: templates/breedrust/index.html:29
 msgid "Provide genes. Only X, W, Y, G, H allowed."
-msgstr "Proporciona genes. Solo se permiten X, W, Y, G, H."
+msgstr "Proporciona genes (solo X, W, Y, G, H)."
 
 #: templates/breedrust/index.html:30
 msgid "Add more genes or run simulation!"
@@ -41,4 +41,4 @@ msgstr "¡Añade más genes o ejecuta la simulación!"
 
 #: templates/breedrust/index.html:31
 msgid "You can't add more genes. Run simulation!"
-msgstr "No puedes añadir más genes. ¡Ejecuta la simulación!"
+msgstr "No añadas más genes. ¡Ejecuta la simulación!"

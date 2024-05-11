@@ -126,6 +126,8 @@ function moveFocusToNextCell(event) {
     // If the last visible row is filled and there are still hidden rows, unhide the next row
     if (isRowFilled(lastVisibleRow) && rowsUnhidden < 30) {
       unhideNextRow(lastVisibleRow);
+    } else {
+        animateText('run', 0, animateUnfilledRows);
     }
   }
   
