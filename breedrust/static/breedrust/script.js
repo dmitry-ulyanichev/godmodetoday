@@ -280,11 +280,37 @@ function runSimulation() {
     // Display the result
     var resultsDiv = document.getElementById('results');
     resultsDiv.classList.remove('hidden');
+
     for (var i = 0; i < numGenes; i++) {
         var result = document.getElementById(`result${i}`);
         result.classList.remove('hidden');
         var gene = document.getElementById(`gene${i}`);
-        gene.innerHTML = genes[i];
+        
+        // Clear previous content
+        gene.innerHTML = '';
+        
+        for (var j = 0; j < genes[i].length; j++) {
+            var charSpan = document.createElement('span');
+            charSpan.innerHTML = genes[i][j];
+            charSpan.classList.add('result-letter');
+            
+            // Apply class based on character
+            if (['X', 'W', '*'].includes(genes[i][j])) {
+                charSpan.classList.add('red');
+            } else if (['Y', 'G', 'H'].includes(genes[i][j])) {
+                charSpan.classList.add('green');
+            }
+            
+            gene.appendChild(charSpan);
+            
+            // Add a dash after each character except the last one
+            if (j < genes[i].length - 1) {
+                var dashSpan = document.createElement('span');
+                dashSpan.innerHTML = '-';
+                gene.appendChild(dashSpan);
+            }
+        }
+        
         var link = document.getElementById(`instructions-link-${i}`);
         link.setAttribute('href', `get_provenance/${genes[i]}`);
     }

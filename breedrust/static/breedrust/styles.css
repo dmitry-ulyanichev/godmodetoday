@@ -103,6 +103,29 @@ body {
     pointer-events: none;
 }
 
+.result {
+  line-height: 1.9;
+}
+
+.result-letter {
+  color: white;
+  border-radius: 50%;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 0 2px;
+}
+
+.result-letter.green {
+  background-color: #557a19;
+}
+
+.result-letter.red {
+  background-color: #a83a34;
+}
+
 #video-container {
     position: absolute;
     left: 0;
