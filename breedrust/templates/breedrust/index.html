@@ -6,6 +6,24 @@
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'breedrust/styles.css' %}">
     <script src="{% static 'breedrust/script.js' %}"></script>
+    <script>
+        var processGenesUrl = "{% url 'breedrust:process_genes' %}";
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        </script>
 {% endblock %}
 {% block content %}
     <div id="simulator">
@@ -19,7 +37,17 @@
             {% endfor %}
         </div>
         <div id="instructions"></div>
-        <button id="runSimButton" class="disabled-button" onclick="runSimulation()">{% translate "Run Simulation" %}</button>
+        <button id="runSimButton" class="disabled-button">{% translate "Run Simulation" %}</button>
+    </div>
+    <div id="results" class="hidden">
+        <h2>Top <span id="num-of-genes">10</span> Best Genes</h2>
+        <div>
+            {% for i in "0123456789" %}
+            <div class="result hidden" id="result{{ i }}">
+                <span id="gene{{ i }}"></span> – <a href="" target="_blank" id="instructions-link-{{ i }}">Show Instructions</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     <div id="video-container">
         <h3>{% translate "How to Use Breeding Simulator" %}</h3>
@@ -29,6 +57,7 @@
         <span id="type" class="hidden">{% translate "Provide genes. Only X, W, Y, G, H allowed." %}</span>
         <span id="add-or-run" class="hidden">{% translate "Add more genes or run simulation!" %}</span>
         <span id="run" class="hidden">{% translate "You can't add more genes. Run simulation!" %}</span>
+        <span id="show-instructions" class="hidden">{% translate "Show breeding instructions" %}</span>
         <span id="most-recent-instruction" class="hidden"></span>
     </div>
 {% endblock %}

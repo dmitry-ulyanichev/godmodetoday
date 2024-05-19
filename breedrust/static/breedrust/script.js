@@ -244,5 +244,66 @@ function cycleLetters(event) {
 }
 
 function runSimulation() {
-    //
+  // Collect the form data
+  var data = {};
+  var rows = document.querySelectorAll('.row-filled');
+  for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      var cells = row.querySelectorAll('.cell');
+      var sequence = '';
+      for (var j = 0; j < cells.length; j++) {
+          sequence += cells[j].value;
+      }
+      data[(i + 1).toString().padStart(2, '0')] = sequence;
+  }
+
+  // Send the data to the backend
+  fetch(processGenesUrl, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+
+    // Extract the values (genes) from the data.results object
+    const genes = data.results;
+    console.log("Stringified object values: " + JSON.stringify(genes));
+
+    const numGenes = Math.min(10, genes.length);
+    const numGenesElement = document.getElementById('num-of-genes');
+    numGenesElement.innerHTML = numGenes;
+
+    // Display the result
+    var resultsDiv = document.getElementById('results');
+    resultsDiv.classList.remove('hidden');
+    for (var i = 0; i < numGenes; i++) {
+        var result = document.getElementById(`result${i}`);
+        result.classList.remove('hidden');
+        var gene = document.getElementById(`gene${i}`);
+        gene.innerHTML = genes[i];
+        var link = document.getElementById(`instructions-link-${i}`);
+        link.setAttribute('href', `get_provenance/${genes[i]}`);
+    }
+  });
+}
+
+function getProvenance(gene) {
+  const url = `get_provenance/${gene}`;
+
+  fetch(url, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+      },
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Display the provenance record in the console
+      console.log(`Provenance for gene ${gene}:`, data.provenance);
+  });
 }
