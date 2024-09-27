@@ -5,6 +5,9 @@ let textAnimationTimeout = null;
 const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
 
 function suggestWord() {
+  // Remove the dictionary section if it's present
+  removeDictionarySection();
+
   const rows = document.querySelectorAll('.row');
   const nextIncompleteRow = getNextIncompleteRow(rows);
 
@@ -145,6 +148,9 @@ function fillRowWithWord(row, word) {
 
   animateText(messageID, 0, animateRow);
 
+  // Add dictionary button
+  addDictionaryButton(row, word);
+
 }
 
 function handleGray(rows) {
@@ -246,6 +252,10 @@ function moveFocusToNextCell(event) {
 }
 
 function unhideNextRow() {
+  // Remove any existing dictionary buttons
+  const existingButtons = document.querySelectorAll('.dictionary-button');
+  existingButtons.forEach(button => button.remove());
+  
   const rows = document.querySelectorAll('.row');
   for (const row of rows) {
     if (row.classList.contains('hidden')) {
@@ -280,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cell.addEventListener('input', event => {
+      removeDictionarySection();
       moveFocusToNextCell(event);
 
       const row = event.target.parentElement;
@@ -287,7 +298,11 @@ document.addEventListener('DOMContentLoaded', () => {
         resetNewRowUnhidden();
       }
     });
-    cell.addEventListener('click', cycleCellColor);
+    // cell.addEventListener('click', cycleCellColor);
+    cell.addEventListener('click', (event) => {
+      cycleCellColor(event); // Call the existing function
+      removeDictionarySection(); // Call the function to remove the dictionary section
+  });  
   });
 
   // Set focus on the first cell of the first row when the page is loaded
@@ -566,6 +581,8 @@ function displayWords(words, wordToExclude, greenLettersAndPositions) {
       divOption.addEventListener('click', function() {
         selectValue.textContent = uppercasedWord;
         fillRowWithWord(document.querySelector(".row.visible:not([data-processed='true'])"), uppercasedWord);
+        // Add dictionary button
+        addDictionaryButton(visibleRow, word);
       });
 
       options.appendChild(divOption);

@@ -13,6 +13,7 @@ def simulate(data):
     data = add_clones(data, 'c')
     data = create_combos_3_way(data)
     data = remove_duplicates(data)
+    # add_clones(data, 'g')
     # five_way_combos
     data = order_best_to_worst(data)
     return data

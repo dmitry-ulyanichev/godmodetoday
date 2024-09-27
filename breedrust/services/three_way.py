@@ -10,6 +10,7 @@ iterations = 1
 def create_combos_3_way(data):
 
     delimiters = ['x', '~', '!', '@']
+    clone_delimiters = ['d', 'e', 'f']
     iteration = 0
     prev_length = -1
     current_data = data.copy()
@@ -38,15 +39,9 @@ def create_combos_3_way(data):
         if len(new_data) <= prev_length:
             break
         
-        if iteration == 0:
-            letter =  'd'
-        elif iteration == 1:
-            letter =  'e'
-        elif iteration == 2:
-            letter =  'f'
-        
+        # letters d, e, or f are added (depending on the iteration) to signify it's a clone
         if iteration < 3:
-            new_data = add_clones(new_data, letter)
+            new_data = add_clones(new_data, clone_delimiters[iteration])
         
         prev_length = len(new_data)
         current_data = new_data
@@ -89,43 +84,43 @@ def cross_gene_3_way(contrib1, receive, contrib2):
     
     return result_gene
 
-def calculate_locus(contrib1, receive, contrib2):
-    """
-    This function calculates the result of crossing letters for each locus.
-    The order of letters matters: the one in the middle receives letters
-    from the contributing letters if they have more weight.
-    """
+# def calculate_locus(contrib1, receive, contrib2):
+#     """
+#     This function calculates the result of crossing letters for each locus.
+#     The order of letters matters: the one in the middle receives letters
+#     from the contributing letters if they have more weight.
+#     """
 
-    # Define the weights
-    weights = {
-        '*': 1.1,
-        'W': 1.0,
-        'X': 1.0,
-        'Y': 0.6,
-        'G': 0.6,
-        'H': 0.6
-    }
+#     # Define the weights
+#     weights = {
+#         '*': 1.1,
+#         'W': 1.0,
+#         'X': 1.0,
+#         'Y': 0.6,
+#         'G': 0.6,
+#         'H': 0.6
+#     }
     
-    # Determine the combined weight of the contributing characters
-    if contrib1 == contrib2:
-        combined_weight = weights[contrib1] + weights[contrib2]
-    else:
-        combined_weight = max(weights[contrib1], weights[contrib2])
+#     # Determine the combined weight of the contributing characters
+#     if contrib1 == contrib2:
+#         combined_weight = weights[contrib1] + weights[contrib2]
+#     else:
+#         combined_weight = max(weights[contrib1], weights[contrib2])
     
-    # Determine the weight of the receiving character
-    receive_weight = weights[receive]
+#     # Determine the weight of the receiving character
+#     receive_weight = weights[receive]
     
-    # Special case check
-    if (receive in 'YGH') and ((contrib1 == 'W' and contrib2 == 'X') or (contrib1 == 'X' and contrib2 == 'W')):
-        return '*'
+#     # Special case check
+#     if (receive in 'YGH') and ((contrib1 == 'W' and contrib2 == 'X') or (contrib1 == 'X' and contrib2 == 'W')):
+#         return '*'
     
-    # Compare the weights and decide the outcome
-    if receive_weight >= combined_weight:
-        return receive
-    else:
-        # In this case, the receiving character changes
-        if weights[contrib1] > weights[contrib2]:
-            return contrib1
-        else:
-            # If contrib1 and contrib2 have the same weight, return either one of them
-            return contrib2
+#     # Compare the weights and decide the outcome
+#     if receive_weight >= combined_weight:
+#         return receive
+#     else:
+#         # In this case, the receiving character changes
+#         if weights[contrib1] > weights[contrib2]:
+#             return contrib1
+#         else:
+#             # If contrib1 and contrib2 have the same weight, return either one of them
+#             return contrib2

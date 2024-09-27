@@ -4,11 +4,32 @@
 
 {% block title %}{% translate "Let's solve la Palabra del Día!" %}{% endblock %}
 {% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'palabradeldia/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'palabradeldia/lookup.css' %}">
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
     <script>
         let words = JSON.parse('{{ words|safe }}');
     </script>
     <script src="{% static 'palabradeldia/script.js' %}"></script>
+    <script src="{% static 'palabradeldia/lookup.js' %}"></script>
 {% endblock %}
 {% block content %}
     <div id="game">
